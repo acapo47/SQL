@@ -1,0 +1,11 @@
+-- Anthony Capo
+-- Test Function
+--
+create or replace function name(first varchar2, last varchar2)
+	return varchar2
+is
+	begin
+		return last || ', ' || first;
+	end name;
+/
+sho err

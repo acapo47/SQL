@@ -1,0 +1,76 @@
+/* Anthony Capo - acapo */
+
+/* Query 7.4 */
+CREATE TABLE DEPARTMENT
+(
+DepartmentName CHAR(35) NOT NULL PRIMARY KEY,
+BudgetCode CHAR(30) NOT NULL,
+OfficeNumber CHAR(15) NOT NULL,
+Phone CHAR(12) NOT NULL
+);
+
+/* Query 7.5 */
+CREATE TABLE EMPLOYEE
+(
+EmployeeNumber INT NOT NULL auto_increment PRIMARY KEY,
+FirstName CHAR(25) NOT NULL,
+LastName CHAR(25) NOT NULL,
+Department CHAR(35) NOT NULL DEFAULT 'Human Resources' FOREIGN KEY REFERENCES DEPARTMENT(DepartmentName) ON UPDATE CASCADE,
+Phone CHAR(12) NOT NULL,
+Email CHAR(100) NOT NULL
+);
+
+/* Query 7.6 */
+CREATE TABLE PROJECT
+(
+ProjectID INT NOT NULL auto_increment PRIMARY KEY,
+Name CHAR(50) NOT NULL,
+Department CHAR(35) NOT NULL FOREIGN KEY REFERENCES DEPARTMENT(DepartmentName),
+MaxHours = 100,
+StartDate datetime,
+EndDate datetime
+);
+
+/* Query 7.7 */
+CREATE TABLE ASSIGNMENT
+(
+ProjectID INT NOT NULL,
+EmployeeNumber INT NOT NULL,
+HoursWorked real,
+	PRIMARY KEY (ProjectID, EmployeeNumber),
+	FOREIGN KEY (ProjectID) REFERENCES PROJECT(ProjectID) 
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE,
+	FOREIGN KEY (EmployeeNumber) REFERENCES EMPLOYEE(EmployeeNumber)
+);
+
+/* Query 7.8 */
+CREATE TABLE ASSIGNMENT
+(
+ProjectID INT NOT NULL,
+EmployeeNumber INT NOT NULL,
+HoursWorked real,
+	PRIMARY KEY (ProjectID, EmployeeNumber),
+	FOREIGN KEY (ProjectID) REFERENCES PROJECT(ProjectID) 
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE,
+	FOREIGN KEY (EmployeeNumber) REFERENCES EMPLOYEE(EmployeeNumber)
+    ADD CONSTRAINT DateValuesCheck CHECK (StartDate < EndDate)
+);
+
+/* Query 7.10 */
+ALTER TABLE EMPLOYEE 
+ADD AreaCode CHAR(3) NULL;
+
+/* Query 7.11 */
+ALTER TABLE EMPLOYEE 
+DROP COLUMN AreaCode;
+
+/* Query 7.12 */
+ALTER TABLE EMPLOYEE 
+ADD CONSTRAINT EMPLOYEE_AK UNIQUE(Phone);
+
+/* Query 7.13 */
+ALTER TABLE EMPLOYEE 
+DROP CONSTRAINT EMPLOYEE_AK UNIQUE(Phone);
+
